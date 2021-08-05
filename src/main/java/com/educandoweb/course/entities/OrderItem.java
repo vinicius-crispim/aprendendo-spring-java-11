@@ -75,6 +75,10 @@ public class OrderItem implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	public double getSubTotal() {
+		return price * quantity;
+	}
 
 	@Override
 	public int hashCode() {
