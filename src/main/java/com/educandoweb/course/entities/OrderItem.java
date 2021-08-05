@@ -16,12 +16,14 @@ public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/*quando criar uma classe auxiliar com id composto tem q iniciar ela.
-	Exemplo errado
-	@EmbeddedId
-	private OrderItemPK id;*/
-	
-	//correto
+	/*
+	 * quando criar uma classe auxiliar com id composto tem q iniciar ela. Exemplo
+	 * errado
+	 * 
+	 * @EmbeddedId private OrderItemPK id;
+	 */
+
+	// correto
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
 
@@ -39,7 +41,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
-	//coloca aqui pois esse getOrder chamava o loop
+	// coloca aqui pois esse getOrder chamava o loop
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
@@ -48,6 +50,7 @@ public class OrderItem implements Serializable {
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
+
 	
 	public Product getProduct() {
 		return id.getProduct();
