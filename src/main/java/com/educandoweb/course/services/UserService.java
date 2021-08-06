@@ -28,5 +28,23 @@ public class UserService {
 		return repository.save(user);
 	}
 	
+	public void deleteUser(Long id) {
+		repository.deleteById(id);
+	}
+	
+	//getOne apenas pega o objeto monitorado e depois mexe no banco, o findBy pega no banco
+	public User updateUser(Long id, User user) {
+		User obj = repository.getOne(id);
+		updateData(obj,user);
+		return repository.save(obj);
+	}
+
+	private void updateData(User obj, User user) {
+
+		obj.setEmail(user.getEmail());
+		obj.setName(user.getName());
+		obj.setPhone(user.getPhone());
+	}
+	
 	
 }
