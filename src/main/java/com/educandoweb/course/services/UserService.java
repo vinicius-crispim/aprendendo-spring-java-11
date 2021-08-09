@@ -3,6 +3,8 @@ package com.educandoweb.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,9 +37,9 @@ public class UserService {
 	public void deleteUser(Long id) {
 		try {
 			repository.deleteById(id);
-		}catch(EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
-		}catch(DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
@@ -45,9 +47,13 @@ public class UserService {
 	// getOne apenas pega o objeto monitorado e depois mexe no banco, o findBy pega
 	// no banco
 	public User updateUser(Long id, User user) {
-		User obj = repository.getOne(id);
-		updateData(obj, user);
-		return repository.save(obj);
+		try {
+			User obj = repository.getOne(id);
+			updateData(obj, user);
+			return repository.save(obj);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User obj, User user) {
